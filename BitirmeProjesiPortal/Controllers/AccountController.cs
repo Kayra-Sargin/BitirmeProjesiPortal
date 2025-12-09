@@ -28,32 +28,26 @@ namespace BitirmeProjesiPortal.Controllers
         }
 
         [HttpPost]
-        public IActionResult Registration(RegistrationViewModel model)
+        public IActionResult Registration(UserAccount account)
         {
             if (ModelState.IsValid)
             {
-                UserAccount account = new UserAccount();
-                account.Email = model.Email;
-                account.Password = model.Password;
-                account.FirstName = model.FirstName;
-                account.LastName = model.LastName;
-                account.UserName = model.UserName;
-
                 _context.UserAccounts.Add(account);
-                _context.SaveChanges();
 
                 try
                 {
+                    _context.SaveChanges();
+
                     ModelState.Clear();
-                    ViewBag.Message = $"{account.FirstName} {account.LastName} registered successfully. Please login";
+                    ViewBag.Message = $"{account.FirstName} {account.LastName} başarıyla kayıt oldu (Zafiyetli Mod).";
                 }
                 catch (DbUpdateException ex)
                 {
-                    ModelState.AddModelError("", "Please enter unique Email or Password");
-                    return View(model);
+                    ModelState.AddModelError("", "Email veya Kullanıcı adı zaten var.");
+                    return View(account);
                 }
             }
-            return View(model);
+            return View(account);
         }
 
         public IActionResult Login()
@@ -72,12 +66,15 @@ namespace BitirmeProjesiPortal.Controllers
                     var user = _context.UserAccounts.FromSqlRaw(sqlQuery).FirstOrDefault();
                     if (user != null)
                     {
+
+                        string userRole = user.IsAdmin ? "Admin" : "User";
+
                         var claims = new List<Claim>
-                    {
-                        new Claim(ClaimTypes.Name, user.UserName),
-                        new Claim("Name", user.FirstName),
-                        new Claim(ClaimTypes.Role, "User")
-                    };
+                        {
+                            new Claim(ClaimTypes.Name, user.UserName),
+                            new Claim("Name", user.FirstName),
+                            new Claim(ClaimTypes.Role, userRole)
+                        };
 
                         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                         HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));

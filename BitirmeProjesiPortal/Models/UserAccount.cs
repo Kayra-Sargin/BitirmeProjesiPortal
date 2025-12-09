@@ -25,5 +25,6 @@ namespace BitirmeProjesiPortal.Models
         [Required(ErrorMessage = "Username is required.")]
         [MaxLength(50, ErrorMessage = "Max 50 characters is allowed.")]
         public string UserName { get; set; }
+        public bool IsAdmin { get; set; } = false;
     }
 }
