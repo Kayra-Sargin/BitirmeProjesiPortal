@@ -1,22 +1,25 @@
-using System.Diagnostics;
+using BitirmeProjesiPortal.Entities;
 using BitirmeProjesiPortal.Models;
+using BitirmeProjesiPortal.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace BitirmeProjesiPortal.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ApplicationDbContext context)
         {
-            _logger = logger;
+            _context = context;
         }
         [Authorize]
         public IActionResult Index()
         {
-            ViewBag.Name = HttpContext.User.Identity.Name;
+            ViewBag.Name = HttpContext.User.Identity?.Name;
             return View();
         }
 
