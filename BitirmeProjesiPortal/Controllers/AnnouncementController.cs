@@ -19,7 +19,7 @@ namespace BitirmeProjesiPortal.Controllers
         {
             ViewBag.ClassReferenceId = classReferenceId;
             var announcements = _context.Announcements
-                                        .Include(x => x.ClassReferences.Classes)
+                                        .Include(x => x.ClassReference.Class)
                                         .Where(x => x.ClassReferenceId == classReferenceId)
                                         .OrderByDescending(x => x.Id)
                                         .ToList();

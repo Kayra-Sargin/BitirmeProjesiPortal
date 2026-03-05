@@ -23,7 +23,7 @@ namespace BitirmeProjesiPortal.Controllers
             ViewBag.UserId = user.Id;
 
             var classes = _context.ClassReferences
-                                  .Include(x => x.Classes)
+                                  .Include(x => x.Class)
                                   .Where(x => x.UserId == user.Id)
                                   .OrderByDescending(x => x.Id)
                                   .ToList();
