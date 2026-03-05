@@ -69,6 +69,9 @@ namespace BitirmeProjesiPortal.Controllers
             {
                 return NotFound();
             }
+            if (_context.Classes != null)
+                ViewBag.ClassList = _context.Classes.ToList();
+
             return View(classReference);
         }
 
