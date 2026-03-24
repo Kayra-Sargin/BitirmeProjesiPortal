@@ -18,26 +18,31 @@
             }
             <input type="hidden" asp-for="UserId" />
 
-            <div class="form-group">
+            <div class="form-group mb-2">
                 <label asp-for="CRN" class="control-label"></label>
                 <input asp-for="CRN" class="form-control" />
                 <span asp-validation-for="CRN" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
-                <label for="ClassId">Ders Kodu</label>
-
+            <div class="form-group mb-2">
+                <label asp-for="ClassId" class="control-label">Ders Kodu</label>
                 <select asp-for="ClassId" class="form-select"
                         asp-items="@(new SelectList(ViewBag.ClassList, "Id", "ClassName"))">
                     <option value="">Seçiniz</option>
                 </select>
-
                 <span asp-validation-for="ClassId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="control-label">Öğrencileri Seçin (Hold Ctrl/Cmd to select multiple)</label>
+                <select name="SelectedStudentIds" class="form-select" multiple="multiple" style="height: 150px;"
+                        asp-items="ViewBag.StudentList">
+                </select>
             </div>
 
             <br />
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Oluştur ve Kaydet" class="btn btn-primary" />
             </div>
         </form>
     </div>

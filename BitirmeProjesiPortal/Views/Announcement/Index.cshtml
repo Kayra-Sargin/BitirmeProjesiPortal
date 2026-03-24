@@ -10,9 +10,12 @@
             <h2 class="text-primary">Announcement List</h2>
         </div>
         <div class="col-6 text-end">
-            <a asp-controller="Announcement" asp-action="Create" asp-route-classReferenceId="@ViewBag.ClassReferenceId" class="btn btn-primary">
-                <i class="bi bi-plus-circle"></i> &nbsp; Create New Announcement
-            </a>
+            @if (User.IsInRole("Admin"))
+            {
+                <a asp-controller="Announcement" asp-action="Create" asp-route-classReferenceId="@ViewBag.ClassReferenceId" class="btn btn-primary">
+                    <i class="bi bi-plus-circle"></i> &nbsp; Create New Announcement
+                </a>
+            }
         </div>
     </div>
     <br /><br />
@@ -45,13 +48,15 @@
                     </td>
                     <td>
                         <div class="btn-group" role="group">
-                            <a asp-controller="Announcement" asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
-                                <i class="bi bi-pencil-square"></i> Edit
-                            </a>
-                            <button class="btn btn-danger" onclick="PrepareDelete(@obj.Id, '@obj.Header')">
-                                <i class="bi bi-trash-fill"></i> Delete
-                            </button>
-
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a asp-controller="Announcement" asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
+                                    <i class="bi bi-pencil-square"></i> Edit
+                                </a>
+                                <button class="btn btn-danger" onclick="PrepareDelete(@obj.Id, '@obj.Header')">
+                                    <i class="bi bi-trash-fill"></i> Delete
+                                </button>
+                            }
                         </div>
                     </td>
                 </tr>

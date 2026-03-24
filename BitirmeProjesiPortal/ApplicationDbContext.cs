@@ -14,10 +14,24 @@ namespace BitirmeProjesiPortal.Entities
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<UserAccountClassReference>()
+                .HasOne(uacr => uacr.User)
+                .WithMany()
+                .HasForeignKey(uacr => uacr.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<UserAccountClassReference>()
+                .HasOne(uacr => uacr.ClassReference)
+                .WithMany()
+                .HasForeignKey(uacr => uacr.ClassReferenceId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
         public DbSet<Class>? Classes { get; set; }
         public DbSet<ClassReference>? ClassReferences { get; set; }
         public DbSet<Announcement>? Announcements { get; set; }
         public DbSet<Assignment>? Assignments { get; set; }
+        public DbSet<UserAccountClassReference>? UserAccountClassReferences { get; set; }
+
     }
 }

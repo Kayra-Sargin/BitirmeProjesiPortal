@@ -3,7 +3,7 @@
 <form method="post" asp-action="Edit">
     <div class="border p-3 mt-4">
         <div class="row pb-2">
-            <h2 class="text-primary">Edit Class</h2>
+            <h2 class="text-primary">Sınıfı Düzenle (Edit Class)</h2>
         </div>
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -11,31 +11,37 @@
         {
             <div class="form-group" style="color:green">@ViewBag.Message</div>
         }
+
+        <input type="hidden" asp-for="Id" />
         <input type="hidden" asp-for="UserId" />
 
-        <div class="form-group">
+        <div class="form-group mb-2">
             <label asp-for="CRN" class="control-label"></label>
             <input asp-for="CRN" class="form-control" />
             <span asp-validation-for="CRN" class="text-danger"></span>
         </div>
 
-        <div class="form-group">
-            <label for="ClassId">Ders Kodu</label>
-
+        <div class="form-group mb-2">
+            <label asp-for="ClassId" class="control-label">Ders Kodu</label>
             <select asp-for="ClassId" class="form-select"
                     asp-items="@(new SelectList(ViewBag.ClassList, "Id", "ClassName"))">
                 <option value="">Seçiniz</option>
             </select>
-
             <span asp-validation-for="ClassId" class="text-danger"></span>
         </div>
 
-        <br />
-        <div class="form-group">
-            <input type="submit" value="Update" class="btn btn-primary" />
+        <div class="form-group mb-4">
+            <label class="control-label">Öğrencileri Seçin (Hold Ctrl/Cmd to select multiple)</label>
+            <select name="SelectedStudentIds" class="form-select" multiple="multiple" style="height: 150px;"
+                    asp-items="ViewBag.StudentList">
+            </select>
         </div>
-        <a asp-controller="ClassReference" asp-action="Index" class="btn btn-secondary">
-            Back to the List
-        </a>
+
+        <div class="form-group">
+            <input type="submit" value="Güncelle (Update)" class="btn btn-primary" />
+            <a asp-controller="ClassReference" asp-action="Index" class="btn btn-secondary ms-2">
+                Listeye Dön
+            </a>
+        </div>
     </div>
 </form>

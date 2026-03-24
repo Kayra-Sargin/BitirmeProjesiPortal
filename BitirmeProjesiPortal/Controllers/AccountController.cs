@@ -76,6 +76,11 @@ namespace BitirmeProjesiPortal.Controllers
                             new Claim(ClaimTypes.Role, userRole)
                         };
 
+                        if (user.IsAdmin)
+                        {
+                            claims.Add(new Claim(ClaimTypes.Role, "Admin"));
+                        }
+
                         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                         HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 

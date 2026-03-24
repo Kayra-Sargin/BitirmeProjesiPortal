@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BitirmeProjesiPortal.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260305135159_asdfasqq")]
-    partial class asdfasqq
+    [Migration("20260324221338_sadasq")]
+    partial class sadasq
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -164,6 +164,29 @@ namespace BitirmeProjesiPortal.Migrations
                     b.ToTable("UserAccounts");
                 });
 
+            modelBuilder.Entity("BitirmeProjesiPortal.Models.UserAccountClassReference", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ClassReferenceId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClassReferenceId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserAccountClassReferences");
+                });
+
             modelBuilder.Entity("BitirmeProjesiPortal.Models.Announcement", b =>
                 {
                     b.HasOne("BitirmeProjesiPortal.Models.ClassReference", "ClassReference")
@@ -201,6 +224,25 @@ namespace BitirmeProjesiPortal.Migrations
                         .IsRequired();
 
                     b.Navigation("Class");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("BitirmeProjesiPortal.Models.UserAccountClassReference", b =>
+                {
+                    b.HasOne("BitirmeProjesiPortal.Models.ClassReference", "ClassReference")
+                        .WithMany()
+                        .HasForeignKey("ClassReferenceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BitirmeProjesiPortal.Models.UserAccount", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("ClassReference");
 
                     b.Navigation("User");
                 });
