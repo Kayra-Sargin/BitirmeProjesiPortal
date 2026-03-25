@@ -32,6 +32,7 @@ namespace BitirmeProjesiPortal.Entities
         public DbSet<Announcement>? Announcements { get; set; }
         public DbSet<Assignment>? Assignments { get; set; }
         public DbSet<UserAccountClassReference>? UserAccountClassReferences { get; set; }
+        public DbSet<ClassFile>? ClassFiles { get; set; }
 
     }
 }

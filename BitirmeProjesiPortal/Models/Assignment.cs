@@ -10,7 +10,6 @@ namespace BitirmeProjesiPortal.Models
         public string? AnswerFilePath { get; set; }
         [NotMapped]
         public IFormFile? AnswerFile { get; set; }
-        [ForeignKey("ClassReferences")]
         public int ClassReferenceId { get; set; }
         public virtual ClassReference? ClassReference { get; set; }
     }

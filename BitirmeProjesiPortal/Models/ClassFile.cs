@@ -2,12 +2,15 @@
 
 namespace BitirmeProjesiPortal.Models
 {
-    public class Announcement
+    public class ClassFile
     {
         public int Id { get; set; }
-        public string? Header { get; set; }
-        public string? Content { get; set; }
+        public DateTime UploadDate { get; set; }
+        public string? FilePath { get; set; }
+        [NotMapped]
+        public IFormFile? File { get; set; }
         public int ClassReferenceId { get; set; }
         public virtual ClassReference? ClassReference { get; set; }
+
     }
 }
