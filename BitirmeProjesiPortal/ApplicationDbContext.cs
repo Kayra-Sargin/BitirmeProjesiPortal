@@ -26,6 +26,11 @@ namespace BitirmeProjesiPortal.Entities
                 .WithMany()
                 .HasForeignKey(uacr => uacr.ClassReferenceId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Grade>()
+                .HasOne(g => g.Student)
+                .WithMany()
+                .OnDelete(DeleteBehavior.Restrict);
         }
         public DbSet<Class>? Classes { get; set; }
         public DbSet<ClassReference>? ClassReferences { get; set; }
@@ -33,6 +38,8 @@ namespace BitirmeProjesiPortal.Entities
         public DbSet<Assignment>? Assignments { get; set; }
         public DbSet<UserAccountClassReference>? UserAccountClassReferences { get; set; }
         public DbSet<ClassFile>? ClassFiles { get; set; }
+        public DbSet<Grade>? Grades { get; set; }
+        public DbSet<ExamType>? ExamTypes { get; set; }
 
     }
 }

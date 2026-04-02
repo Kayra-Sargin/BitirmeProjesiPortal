@@ -30,14 +30,15 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="ClassReference" asp-action="Index">Sınıflar</a>
                         </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-danger fw-bold" asp-area="" asp-controller="Scripts" asp-action="Index">
-                                <i class="bi bi-terminal"></i> Script Lab
-                            </a>
-                        </li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-danger fw-bold" asp-area="" asp-controller="Scripts" asp-action="Index">
+                                    <i class="bi bi-terminal"></i> Script Lab
+                                </a>
+                            </li>
+                        }
                     </ul>
-
                     <div class="d-flex align-items-center">
                         @await Html.PartialAsync("_LoginPartial")
                     </div>

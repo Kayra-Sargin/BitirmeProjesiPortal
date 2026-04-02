@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BitirmeProjesiPortal.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260325093621_q")]
-    partial class q
+    [Migration("20260402132255_First")]
+    partial class First
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -142,6 +142,53 @@ namespace BitirmeProjesiPortal.Migrations
                     b.ToTable("ClassReferences");
                 });
 
+            modelBuilder.Entity("BitirmeProjesiPortal.Models.ExamType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ExamTypeName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ExamTypes");
+                });
+
+            modelBuilder.Entity("BitirmeProjesiPortal.Models.Grade", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ClassReferenceId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ExamTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GradeBy100")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClassReferenceId");
+
+                    b.HasIndex("ExamTypeId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("Grades");
+                });
+
             modelBuilder.Entity("BitirmeProjesiPortal.Models.UserAccount", b =>
                 {
                     b.Property<int>("Id")
@@ -262,6 +309,33 @@ namespace BitirmeProjesiPortal.Migrations
                     b.Navigation("Class");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("BitirmeProjesiPortal.Models.Grade", b =>
+                {
+                    b.HasOne("BitirmeProjesiPortal.Models.ClassReference", "ClassReference")
+                        .WithMany()
+                        .HasForeignKey("ClassReferenceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BitirmeProjesiPortal.Models.ExamType", "ExamType")
+                        .WithMany()
+                        .HasForeignKey("ExamTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BitirmeProjesiPortal.Models.UserAccount", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("ClassReference");
+
+                    b.Navigation("ExamType");
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("BitirmeProjesiPortal.Models.UserAccountClassReference", b =>

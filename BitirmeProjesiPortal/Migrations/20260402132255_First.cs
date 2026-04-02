@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace BitirmeProjesiPortal.Migrations
 {
     /// <inheritdoc />
-    public partial class sadasq : Migration
+    public partial class First : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,6 +22,19 @@ namespace BitirmeProjesiPortal.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Classes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ExamTypes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ExamTypeName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ExamTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -112,6 +126,61 @@ namespace BitirmeProjesiPortal.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ClassFiles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UploadDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FilePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClassReferenceId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClassFiles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ClassFiles_ClassReferences_ClassReferenceId",
+                        column: x => x.ClassReferenceId,
+                        principalTable: "ClassReferences",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Grades",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    GradeBy100 = table.Column<int>(type: "int", nullable: false),
+                    ClassReferenceId = table.Column<int>(type: "int", nullable: false),
+                    StudentId = table.Column<int>(type: "int", nullable: false),
+                    ExamTypeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Grades", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Grades_ClassReferences_ClassReferenceId",
+                        column: x => x.ClassReferenceId,
+                        principalTable: "ClassReferences",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Grades_ExamTypes_ExamTypeId",
+                        column: x => x.ExamTypeId,
+                        principalTable: "ExamTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Grades_UserAccounts_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "UserAccounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserAccountClassReferences",
                 columns: table => new
                 {
@@ -147,6 +216,11 @@ namespace BitirmeProjesiPortal.Migrations
                 column: "ClassReferenceId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ClassFiles_ClassReferenceId",
+                table: "ClassFiles",
+                column: "ClassReferenceId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ClassReferences_ClassId",
                 table: "ClassReferences",
                 column: "ClassId");
@@ -155,6 +229,21 @@ namespace BitirmeProjesiPortal.Migrations
                 name: "IX_ClassReferences_UserId",
                 table: "ClassReferences",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Grades_ClassReferenceId",
+                table: "Grades",
+                column: "ClassReferenceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Grades_ExamTypeId",
+                table: "Grades",
+                column: "ExamTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Grades_StudentId",
+                table: "Grades",
+                column: "StudentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserAccountClassReferences_ClassReferenceId",
@@ -189,7 +278,16 @@ namespace BitirmeProjesiPortal.Migrations
                 name: "Assignments");
 
             migrationBuilder.DropTable(
+                name: "ClassFiles");
+
+            migrationBuilder.DropTable(
+                name: "Grades");
+
+            migrationBuilder.DropTable(
                 name: "UserAccountClassReferences");
+
+            migrationBuilder.DropTable(
+                name: "ExamTypes");
 
             migrationBuilder.DropTable(
                 name: "ClassReferences");
