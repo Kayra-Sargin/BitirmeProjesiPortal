@@ -25,16 +25,16 @@
             </div>
 
             <div class="form-group mb-2">
-                <label asp-for="ClassId" class="control-label">Ders Kodu</label>
+                <label asp-for="ClassId" class="control-label">Class Code</label>
                 <select asp-for="ClassId" class="form-select"
                         asp-items="@(new SelectList(ViewBag.ClassList, "Id", "ClassName"))">
-                    <option value="">Seçiniz</option>
+                    <option value="">Select</option>
                 </select>
                 <span asp-validation-for="ClassId" class="text-danger"></span>
             </div>
 
             <div class="form-group mb-3">
-                <label class="control-label">Öğrencileri Seçin (Hold Ctrl/Cmd to select multiple)</label>
+                <label class="control-label">Choose Students (Hold Ctrl/Cmd to select multiple)</label>
                 <select name="SelectedStudentIds" class="form-select" multiple="multiple" style="height: 150px;"
                         asp-items="ViewBag.StudentList">
                 </select>
@@ -42,7 +42,7 @@
 
             <br />
             <div class="form-group">
-                <input type="submit" value="Oluştur ve Kaydet" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>

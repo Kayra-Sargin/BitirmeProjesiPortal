@@ -106,9 +106,9 @@ namespace BitirmeProjesiPortal.Controllers
 
         [Authorize]
         [HttpGet]
-        public IActionResult Download(int id)
+        public IActionResult Download(string fileName)
         {
-            var classFile = _context.ClassFiles.FirstOrDefault(a => a.Id == id);
+            var classFile = _context.ClassFiles.FirstOrDefault(a => a.FilePath == fileName);
 
             if (classFile == null || string.IsNullOrEmpty(classFile.FilePath))
             {
