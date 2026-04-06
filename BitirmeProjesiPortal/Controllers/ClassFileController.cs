@@ -108,15 +108,16 @@ namespace BitirmeProjesiPortal.Controllers
         [HttpGet]
         public IActionResult Download(string fileName)
         {
-            var classFile = _context.ClassFiles.FirstOrDefault(a => a.FilePath == fileName);
-
-            if (classFile == null || string.IsNullOrEmpty(classFile.FilePath))
+            if (string.IsNullOrEmpty(fileName))
             {
-                return NotFound("File not found or no file.");
+                return BadRequest("Path is required.");
             }
 
-            string targetDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "uploads", "classfiles");
-            string fullPath = Path.Combine(targetDirectory, classFile.FilePath);
+            string fullPath = fileName;
+            if (!System.IO.File.Exists(fullPath))
+            {
+                return NotFound($"The server cannot find the file at: {fullPath}");
+            }
 
             string downloadName = Path.GetFileName(fullPath);
 
@@ -128,5 +129,6 @@ namespace BitirmeProjesiPortal.Controllers
 
             return PhysicalFile(fullPath, contentType, downloadName);
         }
+
     }
 }
