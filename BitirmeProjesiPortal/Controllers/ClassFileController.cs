@@ -110,17 +110,26 @@ namespace BitirmeProjesiPortal.Controllers
         {
             if (string.IsNullOrEmpty(fileName))
             {
-                return BadRequest("Path is required.");
+                return BadRequest("FileName parametresi gerekli.");
             }
 
-            string fullPath = fileName;
+            string fullPath;
+
+            if (Path.IsPathRooted(fileName))
+            {
+                fullPath = fileName;
+            }
+            else
+            {
+                fullPath = Path.Combine(_webHostEnvironment.WebRootPath, "uploads", "classfiles", fileName);
+            }
+
             if (!System.IO.File.Exists(fullPath))
             {
-                return NotFound($"The server cannot find the file at: {fullPath}");
+                return NotFound($"Dosya bu yolda bulunamadı: {fullPath}");
             }
 
             string downloadName = Path.GetFileName(fullPath);
-
             var provider = new FileExtensionContentTypeProvider();
             if (!provider.TryGetContentType(fullPath, out string contentType))
             {
